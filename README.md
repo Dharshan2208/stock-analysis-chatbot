@@ -1,6 +1,6 @@
 # Stock Analysis Chatbot
 
-This project implements a sophisticated financial analysis chatbot designed to provide comprehensive insights and recommendations for stock tickers or companies. Leveraging a suite of specialized tools, the chatbot gathers real-time market data, fundamental company information, recent news, and trend analysis to generate a concise, evidence-based sentiment.
+This project implements a sophisticated stock analysis chatbot designed to provide comprehensive insights and recommendations for stock tickers or companies. Leveraging a suite of specialized tools, the chatbot gathers real-time market data, fundamental company information, recent news, and trend analysis to generate a concise, evidence-based sentiment.
 
 ## Features
 
@@ -58,7 +58,7 @@ This project uses `uv` for dependency management, a fast Python package installe
 
 ### Running the Chatbot
 
-To start the financial analyst chatbot:
+To start the stock analyst chatbot:
 
 ```bash
 uv run main.py
@@ -95,10 +95,6 @@ Contains `price_ohlcv_month_hourly`, `price_ohlcv_weekly_hourly`, and `trend_ana
 - **`price_ohlcv_weekly_hourly(symbol: str)`**: Retrieves 7 days of 1-hour OHLCV data for shorter-term trend analysis.
 - **`trend_analysis(symbol: str, period: str = "7d")`**: The core trend analysis engine. It processes hourly OHLCV data (7-day or 30-day based on `period`) to calculate various technical indicators (EMA, MACD, RSI, Bollinger Bands, Volume) and provides a trend verdict, confidence, and key signals.
 
-## Contribution
-
-Feel free to fork the repository, open issues, or submit pull requests.
-
 ## Example Outputs
 
 Below are two example output screenshots :
@@ -115,3 +111,7 @@ Below are two example output screenshots :
 - New features, better pipelines, and more polished tooling will be added over time.
 - Expect frequent updates to structure, tools, and agent reasoning.
 - Feel free to customize and expand any part of this system depending on your future goals.
+
+## Contribution
+
+Feel free to fork the repository, open issues, or submit pull requests.
