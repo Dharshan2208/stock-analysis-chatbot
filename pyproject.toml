@@ -1,0 +1,18 @@
+[project]
+name = "analysis"
+version = "0.1.0"
+description = "A a sophisticated financial analysis chatbot designed to provide comprehensive insights and recommendations for stock tickers or companies"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "colorama>=0.4.6",
+    "google-genai>=1.51.0",
+    "langchain>=1.0.7",
+    "langchain-google-genai>=3.1.0",
+    "langchain-ollama>=1.0.0",
+    "langgraph>=1.0.3",
+    "lxml-html-clean>=0.4.3",
+    "newspaper3k>=0.2.8",
+    "python-dotenv>=1.2.1",
+    "yfinance>=0.2.66",
+]
