@@ -121,6 +121,57 @@ def price_ohlcv_weekly_hourly(symbol: str) -> str:
             {"symbol": symbol, "error": f"Failed to fetch data: {str(e)}"}, indent=2
         )
 
+def price_ohlcv_200d_daily(symbol: str) -> str:
+    """
+    Returns last 200 days of *daily* OHLCV data.
+    Ideal for long-range trend detection (SMA, MACD, RSI, etc.)
+    """
+    symbol = symbol.upper()
+
+    try:
+        ticker = yf.Ticker(symbol)
+
+        # 1-day candles, last 200 days
+        data = ticker.history(interval="1d", period="200d")
+
+        if data.empty:
+            return json.dumps(
+                {"symbol": symbol, "error": "No daily data found"},
+                indent=2,
+            )
+
+        ohlcv_list = []
+        for idx, row in data.iterrows():
+            if pd.isna(row["Open"]):
+                continue
+
+            ts = idx.strftime("%Y-%m-%d")
+
+            ohlcv_list.append(
+                {
+                    "time": ts,
+                    "open": round(float(row["Open"]), 4),
+                    "high": round(float(row["High"]), 4),
+                    "low": round(float(row["Low"]), 4),
+                    "close": round(float(row["Close"]), 4),
+                    "volume": int(row["Volume"]) if not pd.isna(row["Volume"]) else 0,
+                }
+            )
+
+        result = {
+            "symbol": symbol,
+            "current_price": round(float(data["Close"].iloc[-1]), 4),
+            "period": "Last 200 days (1-day bars)",
+            "total_bars": len(ohlcv_list),
+            "daily_ohlcv_200d": ohlcv_list,
+        }
+
+        return json.dumps(result, indent=2)
+
+    except Exception as e:
+        return json.dumps({"symbol": symbol, "error": str(e)}, indent=2)
+
+
 @tool
 def trend_analysis(symbol: str, period: str = "7d") -> str:
     """
@@ -136,18 +187,22 @@ def trend_analysis(symbol: str, period: str = "7d") -> str:
         # Dynamically fetch correct data
         if period == "7d":
             raw = price_ohlcv_weekly_hourly(symbol)
+            key = "hourly_ohlcv_last_week"
         elif period == "30d":
             raw = price_ohlcv_month_hourly(symbol)
+            key = "hourly_ohlcv_1month"
+        elif period == "200d":
+            raw = price_ohlcv_200d_daily(symbol)
+            key = "daily_ohlcv_200d"
         else:
-            return json.dumps({"error": "period must be '7d' or '30d'"})
+            return json.dumps({"error": "period must be '7d', '30d', or '200d'"})
+
 
         data = json.loads(raw)
         if "error" in data:
             return json.dumps(data)
 
-        bars = data.get(
-            "hourly_ohlcv_last_week" if period == "7d" else "hourly_ohlcv_1month", []
-        )
+        bars = data.get(key, [])
 
         if len(bars) < 30:
             return json.dumps(
@@ -271,8 +326,11 @@ def trend_analysis(symbol: str, period: str = "7d") -> str:
         return json.dumps({"symbol": symbol, "error": str(e)}, indent=2)
 
 # if __name__ == "__main__":
-#     print("7-DAY TREND")
+#     print("7-DAYS : ")
 #     print(trend_analysis("TSLA", "7d"))
 
-#     print("\n30-DAY TREND")
-#     print(trend_analysis("NVDA", "30d"))
+#     print("\n30-DAYS : ")
+#     print(trend_analysis("TSLA", "30d"))
+
+#     print("\n 200-DAYS : ")
+#     print(trend_analysis("TSLA", "200d"))
