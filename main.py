@@ -30,7 +30,7 @@ SYSTEM_PROMPT = """
                 - price_ohlcv: fetch recent market price and OHLCV data (prefer last 10min / intraday / latest candle)
                 - fundamentals: fetch company fundamentals and use all the data.
                 - new_summariser: fetch the recent news and headlines
-                - trend_analysis : fetch the 7 day and 20 day trend
+                - trend_analysis : fetch the 7 days and 30 days and 200 days trend
                 2) Synthesize the tool outputs into a final recommendation with three possible sentiments: 'bullish', 'bearish', or 'neutral'.
                 3) Return a concise JSON object ONLY (no extra chatter) with these keys:
                 {
