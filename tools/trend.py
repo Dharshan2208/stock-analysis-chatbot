@@ -7,7 +7,7 @@ import pandas as pd
 
 def price_ohlcv_month_hourly(symbol: str) -> str:
     """
-    Returns ~1 month (30 days) of 1-hour OHLCV data.
+    Returns ~1 month (30 days) of 1/2-hour OHLCV data.
     Useful for trend detection and momentum analysis.
     """
     symbol = symbol.upper()
@@ -124,8 +124,7 @@ def price_ohlcv_weekly_hourly(symbol: str) -> str:
 @tool
 def trend_analysis(symbol: str, period: str = "7d") -> str:
     """
-    The trend analysis engine.
-    Works with 7-day or 30-day hourly OHLCV data from your trend.py functions.
+    The trend analysis functions.
 
     Args:
         symbol: Stock ticker
